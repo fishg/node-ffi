@@ -26,13 +26,13 @@
     "bindings": "~1.5.0",
     "debug": "4",
     "nan": "^2.13.2",
-    "ref": "fishg/ref#node-12",
-    "ref-struct": "fishg/ref-struct#node-12"
+    "ref": "fishg/ref#electron-8.x",
+    "ref-struct": "fishg/ref-struct#electron-8.x"
   },
   "devDependencies": {
     "fs-extra": "^7.0.1",
     "mocha": "*",
-    "ref-array": "fishg/ref-array#node-12"
+    "ref-array": "fishg/ref-array#electron-8.x"
   },
   "scripts": {
     "test": "node-gyp rebuild --directory test && mocha -gc --reporter spec"
