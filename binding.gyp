@@ -27,10 +27,7 @@
           'include_dirs': [
             'deps/libffi/include',
             'deps/libffi/config/<(OS)/<(target_arch)'
-          ],
-          'libraries': [
-            '<(module_root_dir)/deps/libffi/build/<(OS)/<(target_arch)/lib/libffi.so'
-          ],
+          ]
         }], 
         ['OS=="win"', {
               'sources': [
