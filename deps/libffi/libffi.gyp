@@ -86,10 +86,22 @@
     {
       'target_name': 'ffi',
       'product_prefix': 'lib',
+      # 'type': 'shared_library',
       'type': 'static_library',
 
       # for CentOS 5 support: https://github.com/rbranson/node-ffi/issues/110
-      'standalone_static_library': 1,
+      # 'standalone_static_library': 1,
+
+      'cflags': [
+        '-fPIC',
+        # '--warn-shared-textrel'
+        # '-march=i686',
+        # '-mtune=intel',
+        # '-mssse3',
+        # '-mfpmath=sse',
+        # '-m32'
+        # '-fPIE'
+      ],
 
       'sources': [
         'src/prep_cif.c',
@@ -116,47 +128,64 @@
         ],
       },
       'conditions': [
-        ['target_arch=="arm"', {
-          'sources': [ 'src/arm/ffi.c' ],
+        ['target_arch=="arm64"', {
+          'sources': [ 'src/aarch64/ffi.c' ],
           'conditions': [
-            ['OS=="linux"', {
-              'sources': [ 'src/arm/sysv.S' ]
+            ['OS=="linux" or OR=="android"', {
+              'sources': [ 'src/aarch64/sysv.S' ]
             }]
           ]
-        }, { # ia32 or x64
-          'sources': [
-            'src/x86/ffi.c',
-            'src/x86/ffi64.c'
-          ],
+        }, {
           'conditions': [
-            ['OS=="mac"', {
-              'sources': [
-                'src/x86/darwin.S',
-                'src/x86/darwin64.S'
-              ]
-            }],
-            ['OS=="win"', {
-              # the libffi dlmalloc.c file has a bunch of implicit conversion
-              # warnings, and the main ffi.c file contains one, so silence them
-              'msvs_disabled_warnings': [ 4267 ],
-              # the ffi64.c file is never compiled on Windows
-              'sources!': [ 'src/x86/ffi64.c' ],
+            ['target_arch=="arm"', {
+              'sources': [ 'src/arm/ffi.c' ],
               'conditions': [
-                ['target_arch=="ia32"', {
-                  'sources': [ 'src/x86/win32.asm' ]
-                }, { # target_arch=="x64"
-                  'sources': [ 'src/x86/win64.asm' ]
+                ['OS=="linux" or OR=="android"', {
+                  'sources': [ 'src/arm/sysv.S' ]
                 }]
               ]
-            }],
-            ['OS=="linux" or OS=="freebsd" or OS=="openbsd" or OS=="solaris"', {
+            }, { # ia32 or x64
               'sources': [
-                'src/x86/unix64.S',
-                'src/x86/sysv.S'
+                'src/x86/ffi.c',
+                'src/x86/ffi64.c'
+              ],
+              'conditions': [
+                ['OS=="mac"', {
+                  'sources': [
+                    'src/x86/ffiw64.c',
+                    'src/x86/unix64.S',
+                    'src/x86/win64.S'
+                  ]
+                }],
+                ['OS=="android"', {
+                  'sources': [
+                    'src/x86/sysv.S'
+                  ]
+                }],
+                ['OS=="win"', {
+                  # the libffi dlmalloc.c file has a bunch of implicit conversion
+                  # warnings, and the main ffi.c file contains one, so silence them
+                  'msvs_disabled_warnings': [ 4267 ],
+                  # the ffi64.c file is never compiled on Windows
+                  'sources!': [ 'src/x86/ffi64.c' ],
+                  'conditions': [
+                    ['target_arch=="ia32"', {
+                      'sources': [ 'src/x86/win32.asm' ]
+                    }, { # target_arch=="x64"
+                      'sources': [ 'src/x86/win64.asm' ]
+                    }]
+                  ]
+                }],
+                ['OS=="linux" or OS=="freebsd" or OS=="openbsd" or OS=="solaris"', {
+                  'sources': [
+                    'src/x86/unix64.S',
+                    'src/x86/sysv.S'
+                  ]
+                }]
               ]
             }]
-          ]
-        }],
+          ]}
+        ],
       ]
     },
 
