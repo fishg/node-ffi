@@ -10,6 +10,9 @@
       'include_dirs': [
         '<!(node -e "require(\'nan\')")'
       ],
+      'dependencies': [
+        'deps/libffi/libffi.gyp:ffi'
+      ],
       'conditions': [
         ['OS=="android"', {
           'include_dirs': [
@@ -19,17 +22,22 @@
           'libraries': [
             '<(module_root_dir)/deps/libffi/build/<(OS)/<(target_arch)/lib/libffi.so'
           ],
-        }, {
-          'dependencies': [
-            'deps/libffi/libffi.gyp:ffi'
+        }], 
+        ['OS=="linux"', {
+          'include_dirs': [
+            'deps/libffi/include',
+            'deps/libffi/config/<(OS)/<(target_arch)'
           ],
-          'conditions': [
-            ['OS=="win"', {
+          'libraries': [
+            '<(module_root_dir)/deps/libffi/build/<(OS)/<(target_arch)/lib/libffi.so'
+          ],
+        }], 
+        ['OS=="win"', {
               'sources': [
                   'src/win32-dlfcn.cc'
               ],
-            }],
-            ['OS=="mac"', {
+        }],
+        ['OS=="mac"', {
               'xcode_settings': {
                 'GCC_ENABLE_CPP_EXCEPTIONS': 'YES',
                 'OTHER_CFLAGS': [
@@ -39,9 +47,9 @@
               'libraries': [
                   '-lobjc'
               ],
-            }]
-          ]
         }]
+          
+        
       ]
     }
   ]
