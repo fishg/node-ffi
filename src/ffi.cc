@@ -69,6 +69,8 @@ NAN_MODULE_INIT(FFI::InitializeBindings) {
 #ifdef __arm__
   SET_ENUM_VALUE(FFI_SYSV);
   SET_ENUM_VALUE(FFI_VFP);
+#elif defined(__aarch64__)
+  SET_ENUM_VALUE(FFI_SYSV);
   /* ---- Intel x86 Win32 ---------- */
 #elif defined(X86_WIN32)
   SET_ENUM_VALUE(FFI_SYSV);
