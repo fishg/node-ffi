@@ -43,7 +43,7 @@
       "host"        : "https://ym-public.oss-cn-shenzhen.aliyuncs.com/node_prebuild"
   },
   "scripts": {
-       "install" : "node-pre-gyp install --fallback-to-build",
+       "install" : "node-pre-gyp install --fallback-to-build --runtime=electron --target=8.3.1",
        "test": "node-gyp rebuild --directory test && mocha -gc --reporter spec"
   },
   "repository": {
