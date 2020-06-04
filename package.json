@@ -27,15 +27,24 @@
     "debug": "4",
     "nan": "^2.13.2",
     "ref": "fishg/ref#electron-8.x",
-    "ref-struct": "fishg/ref-struct#electron-8.x"
+    "ref-struct": "fishg/ref-struct#electron-8.x",
+    "node-pre-gyp": "0.6.x"
   },
   "devDependencies": {
     "fs-extra": "^7.0.1",
     "mocha": "*",
     "ref-array": "fishg/ref-array#electron-8.x"
   },
+  "binary": {
+      "module_name" : "ffi_bindings",
+      "module_path" : "./lib/binding/{configuration}/{node_abi}-{platform}-{arch}/",
+      "remote_path" : "./{module_name}/v{version}/{configuration}/",
+      "package_name": "{module_name}-v{version}-{node_abi}-{platform}-{arch}.tar.gz",
+      "host"        : "https://node-pre-gyp-tests.s3-us-west-1.amazonaws.com"
+  },
   "scripts": {
-    "test": "node-gyp rebuild --directory test && mocha -gc --reporter spec"
+       "install" : "node-pre-gyp install --fallback-to-build",
+       "test": "node-gyp rebuild --directory test && mocha -gc --reporter spec"
   },
   "repository": {
     "type": "git",

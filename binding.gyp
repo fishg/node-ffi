@@ -13,6 +13,7 @@
       'dependencies': [
         'deps/libffi/libffi.gyp:ffi'
       ],
+      'product_dir': '<(module_path)',
       'conditions': [
         ['OS=="win"', {
           'sources': [
