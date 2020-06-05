@@ -28,7 +28,7 @@
     "nan": "^2.13.2",
     "ref": "fishg/ref#prebuild",
     "ref-struct": "fishg/ref-struct#prebuild",
-    "node-pre-gyp": "0.6.x"
+    "node-pre-gyp": "0.12.x"
   },
   "devDependencies": {
     "fs-extra": "^7.0.1",
